@@ -1,1 +1,1 @@
-Lat   Long   N   P   K   
+Lat   Long   N   P   K   Micro   pH   CTC   V%   
