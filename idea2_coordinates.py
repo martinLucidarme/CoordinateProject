@@ -51,6 +51,10 @@ Xfinal= -13.600
 Yinit =-55.800
 Yfinal=-55.805
 pace = 0.0010
-list_x_y = ideia2.calc_coord(Xinit,Xfinal,Yinit, Yfinal, pace)+ideia2.calc_coord(20,30,5, 15, 1)
+list_x_y = ideia2.calc_coord(Xinit,Xfinal,Yinit, Yfinal, pace)+ideia2.calc_coord(20,30,5, 15, 1)+ideia2.calc_coord(30,40,18, 28, 1)
 print(list_x_y)
-print(ideia2.string_coord(list_x_y))
+column_ok = ideia2.string_coord(list_x_y)
+print(column_ok)
+header = 'Lat   Long    N   P   K   MO'+'\n'
+text_opening = open('text_test.txt','w')
+text_opening.write(header+column_ok)
