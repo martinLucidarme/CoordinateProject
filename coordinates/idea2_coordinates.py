@@ -56,5 +56,5 @@ print(list_x_y)
 column_ok = ideia2.string_coord(list_x_y)
 print(column_ok)
 header = 'Lat   Long    N   P   K   MO'+'\n'
-text_opening = open('text_test.txt','w')
+text_opening = open('text_test.txt', 'w')
 text_opening.write(header+column_ok)
