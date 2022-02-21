@@ -116,8 +116,6 @@ def dict_geojson_creator(tab_values_of_analysis, header):
     return list_analysis_all_points
 
 
-
-
 # excel_name = input('Analyse file path:')  # in this case :
 excel_name = 'soil_template_to_map.xlsx'
 tab_of_interest = tab_opener(excel_name)
@@ -129,35 +127,3 @@ tab_values_of_analysis = clean_tab_list(tab_list)  # raw datas (actual values)
 # we must create a geojson ready file
 
 print(dict_geojson_creator(tab_values_of_analysis, header))
-
-'''
-{
-                            "P":a,
-                            "K":b,
-                            "Mg":c,
-                            "Ca":d,
-                            "S":e,
-                            "pH":f,
-                            "CTC":g,
-                            "V%":h,
-                            "EC":i
-                            "texture":j
-                            }'''
-"""
-def create_dict(tab_list, header):
-    dico = {}
-    lat = header[0]
-    long = header[1]
-    for header_property in header[2:]:
-        dico[header_property] = 0
-
-    dict_analysis ={ {"geometry": {"coordinates": [lat, long], "type": "Point"},
-                     "properties": dico, "type": "Feature"
-                     },
-                     {"geometry": {"coordinates": [lat, long], "type": "Point"},
-                     "properties": dico, "type": "Feature"
-                     }
-                    }
-    """
-
-# store data in variables lat, long, a,b,c,d,e,f,g,h,i,j
