@@ -1,6 +1,6 @@
 """
 from sample: soil_template_to_map.xlsx
-Take soil data from excel and bring them into a dict/geojson like this:
+Take soil data from excel and bring them into a geojson like this:
 
 { "geometry":{"coordinates":[lat,long],"type":"Point"},
               "properties":{
@@ -19,6 +19,7 @@ Take soil data from excel and bring them into a dict/geojson like this:
 
 """
 import openpyxl
+import json
 
 
 # pass data from excel sheets to lists,
@@ -97,28 +98,28 @@ def dict_geojson_creator(tab_values_of_analysis, header):
 
     :param tab_values_of_analysis: raw values corresponding to properties
     :param header: properties name
-    :return: a list of dict {"geometry": {"coordinates": [lat, long], "type": "Point"},
-                                   "properties": dico, "type": "Feature"
-                                   }
+    :return: Geojson ready dictionnary
     '''
     list_analysis_all_points = []
     for list_of_val in tab_values_of_analysis:
-        lat = list_of_val[0]
-        long = list_of_val[1]
+        long = list_of_val[0]
+        lat = list_of_val[1]
         dico = {}
         for i in range(2, len(header)):
             dico[header[i]] = list_of_val[i]
-        dict_analysis_one_point = {"geometry": {"coordinates": [lat, long], "type": "Point"},
-                                   "properties": dico, "type": "Feature"
+
+        dict_analysis_one_point = {'geometry': {'coordinates': [lat, long], 'type': 'Point'},
+                                   'properties': dico, "type": 'Feature'
                                    }
         list_analysis_all_points.append(dict_analysis_one_point)
+    dict_final = {"type": "FeatureCollection", "features": list_analysis_all_points}
 
-    return list_analysis_all_points
+    return dict_final
 
 
-# excel_name = input('Analyse file path:')  # in this case :
-excel_name = 'soil_template_to_map.xlsx'
-tab_of_interest = tab_opener(excel_name)
+# excel_path = input('Analyse file path:')  # in this case :
+excel_path = 'soil_template_to_map.xlsx'
+tab_of_interest = tab_opener(excel_path)
 tab_list = tab_values_in_lists(tab_of_interest)
 header = find_header(tab_list)  # name of the properties in the tab (same line as lat, long)
 tab_values_of_analysis = clean_tab_list(tab_list)  # raw datas (actual values)
@@ -126,4 +127,7 @@ tab_values_of_analysis = clean_tab_list(tab_list)  # raw datas (actual values)
 # now we have header (properties on the file) and all the values (property index = value index).
 # we must create a geojson ready file
 
-print(dict_geojson_creator(tab_values_of_analysis, header))
+dict_of_analysis_value = dict_geojson_creator(tab_values_of_analysis, header)
+print(dict_of_analysis_value)
+with open('soil_analysis_result.json', 'w') as geojson_analysis:
+    json.dump(dict_of_analysis_value, geojson_analysis, indent=4)
